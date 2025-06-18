@@ -907,15 +907,17 @@ HTML_TEMPLATE = '''
 @app.route('/')
 def index():
     """Main page"""
+    global factor_options
+    
     # Ensure factor_options is populated
     if not factor_options:
-        logger.warning("Factor options not loaded, initializing...")
+        print("Factor options not loaded, initializing...")  # Use print as fallback
         try:
             generator = LeadTimeDataGenerator()
-            global factor_options
             factor_options = generator.get_factor_options()
+            print("Factor options loaded successfully")
         except Exception as e:
-            logger.error(f"Failed to load factor options: {e}")
+            print(f"Failed to load factor options: {e}")
             # Provide minimal fallback options
             factor_options = {
                 'product_type': ['Electronics', 'Machinery', 'Auto Parts'],
@@ -928,7 +930,7 @@ def index():
                 'priority_level': ['Standard', 'High Priority', 'Expedited']
             }
     
-    logger.info(f"Rendering page with {len(factor_options)} factor groups")
+    print(f"Rendering page with {len(factor_options)} factor groups")
     return render_template_string(HTML_TEMPLATE, factor_options=factor_options)
 
 @app.route('/predict', methods=['POST'])
