@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Lead Time Estimator Flask Application
 Complete B2B Lead Time prediction system with web interface
@@ -716,6 +717,7 @@ HTML_TEMPLATE = '''
                     <button class="demo-btn" onclick="loadScenario('worst')">Worst Case</button>
                     <button class="demo-btn" onclick="loadScenario('typical')">Typical Order</button>
                     <button class="demo-btn" onclick="loadScenario('rush')">Rush Order</button>
+                    <br><small>Debug: {{ factor_options|length }} factor groups loaded</small>
                 </div>
             </div>
 
@@ -905,6 +907,28 @@ HTML_TEMPLATE = '''
 @app.route('/')
 def index():
     """Main page"""
+    # Ensure factor_options is populated
+    if not factor_options:
+        logger.warning("Factor options not loaded, initializing...")
+        try:
+            generator = LeadTimeDataGenerator()
+            global factor_options
+            factor_options = generator.get_factor_options()
+        except Exception as e:
+            logger.error(f"Failed to load factor options: {e}")
+            # Provide minimal fallback options
+            factor_options = {
+                'product_type': ['Electronics', 'Machinery', 'Auto Parts'],
+                'quantity_range': ['Small (1-25)', 'Medium (26-100)', 'Large (101-500)'],
+                'customer_region': ['North America', 'Europe', 'Asia'],
+                'season': ['Spring (Mar-May)', 'Summer (Jun-Aug)', 'Fall (Sep-Nov)', 'Winter (Dec-Feb)'],
+                'product_complexity': ['Simple', 'Standard', 'Complex'],
+                'supply_chain_status': ['Normal', 'Minor Delays', 'Major Delays'],
+                'factory_load': ['Low (<60%)', 'Normal (60-80%)', 'High (80-95%)'],
+                'priority_level': ['Standard', 'High Priority', 'Expedited']
+            }
+    
+    logger.info(f"Rendering page with {len(factor_options)} factor groups")
     return render_template_string(HTML_TEMPLATE, factor_options=factor_options)
 
 @app.route('/predict', methods=['POST'])
@@ -939,7 +963,18 @@ def health():
     return jsonify({
         'status': 'healthy',
         'model_loaded': lead_time_model.model is not None,
+        'factor_options_loaded': bool(factor_options),
         'timestamp': datetime.now().isoformat()
+    })
+
+@app.route('/debug')
+def debug():
+    """Debug endpoint to check factor options"""
+    return jsonify({
+        'factor_options_loaded': bool(factor_options),
+        'factor_options': factor_options,
+        'model_loaded': lead_time_model.model is not None,
+        'available_factors': list(factor_options.keys()) if factor_options else []
     })
 
 def main():
