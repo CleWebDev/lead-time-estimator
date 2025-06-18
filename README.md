@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Lead Time Estimator
 
 B2B Lead Time prediction system with AI-powered estimation considering product complexity, supply chain status, and operational factors.
@@ -9,3 +10,7 @@ B2B Lead Time prediction system with AI-powered estimation considering product c
 - Interactive web interface
 - Pre-built demo scenarios
 - Production-ready Flask application
+=======
+# lead-time-estimator
+B2B Lead Time Estimator with AI-powered predictions
+>>>>>>> 61747f29eec7a38379904fefe25ab6e49c484012
