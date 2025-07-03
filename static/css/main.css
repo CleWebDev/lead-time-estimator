@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: #333;
+    line-height: 1.6;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.header h1 {
+    margin-bottom: 10px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 2.625rem !important;
+    font-weight: 400 !important;
+    text-align: center;
+}
+h1, h2{
+    font-family: 'Raleway', sans-serif;
+    color: #45556c;
+    font-weight: 400;
+}
+ h3, h4, h5, h6 {
+    font-size: 1.75rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    color:#956ea5
+}
+.header p {
+   
+}
+
+.main-content {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.input-panel,
+.results-panel {
+    flex: 1;
+    min-width: 400px;
+   
+    padding:3rem;
+    border-radius: 40px;
+
+}
+.input-panel{
+  
+    background-color: rgba(69, 86, 108, .9);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: #fff;
+}
+.results-panel{
+    background-color: rgba(69, 86, 108, .2);
+    background-image: url(https://www.theprovatogroup.com/wp-content/plugins/block-based-landing-pages/blocks/about-banding/images/what-back.webp);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+.input-panel label{
+    color: #fff;
+}
+.input-panel h3{
+    color: #fff;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.predict-btn {
+    width: 100%;
+    margin: 1rem auto 2rem;
+    background-color: #fed45e;
+    padding: 7px 25px;
+    border-radius: 8px;
+    color: #2a3441;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: "Raleway", sans-serif;
+    font-weight: 600;
+    font-size: 1.1em;
+    border: 1px transparent solid;
+}
+
+.predict-btn:hover {
+    background-color: #2a3441;
+    color: #fff;
+}
+
+.predict-btn:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.loading {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    color: #7f8c8d;
+}
+
+.results {
+    display: none;
+}
+
+.urgency-indicator {
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.prediction-value {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.explanation {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius:15px;
+    margin-bottom: 20px;
+    color:#333;
+}
+
+.explanation h4 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.explanation ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.explanation li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.explanation li:last-child {
+    border-bottom: none;
+}
+
+.error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.demo-scenarios {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, .6);
+    border-radius: 15px;
+    color:#333;
+}
+.demo-scenarios h4{
+    color: #45556c;
+    font-size: 1.2rem;
+    margin-bottom: .5rem;
+}
+.demo-btn {
+    padding: .5rem 1rem;
+    transition: all .3s ease;
+    border-radius: 5px;
+    background-color: #956ea5;
+    color: #fff;
+    cursor: pointer;
+    border: 1px transparent solid;
+}
+
+.demo-btn:hover {
+    background-color: #2a3441;
+    color: #fff;
+    border: 1px #fff solid;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+    .input-panel,
+    .results-panel {
+        min-width: auto;
+    }
+}

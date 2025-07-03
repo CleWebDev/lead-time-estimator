@@ -334,37 +334,7 @@ HTML_TEMPLATE = '''
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lead Time Estimator</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; color: #333; line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .header { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: center; }
-        .header h1 { color: #2c3e50; margin-bottom: 10px; }
-        .header p { color: #7f8c8d; }
-        .main-content { display: flex; gap: 20px; flex-wrap: wrap; }
-        .input-panel, .results-panel { flex: 1; min-width: 400px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: 500; color: #2c3e50; }
-        select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
-        select:focus { outline: none; border-color: #3498db; box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2); }
-        .predict-btn { width: 100%; padding: 12px; background-color: #3498db; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.3s; }
-        .predict-btn:hover { background-color: #2980b9; }
-        .predict-btn:disabled { background-color: #bdc3c7; cursor: not-allowed; }
-        .loading { display: none; text-align: center; padding: 20px; color: #7f8c8d; }
-        .results { display: none; }
-        .urgency-indicator { padding: 15px; border-radius: 6px; margin-bottom: 20px; text-align: center; font-weight: 500; }
-        .prediction-value { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
-        .explanation { background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
-        .explanation h4 { margin-bottom: 10px; color: #2c3e50; }
-        .explanation ul { list-style-type: none; padding-left: 0; }
-        .explanation li { padding: 5px 0; border-bottom: 1px solid #ecf0f1; }
-        .explanation li:last-child { border-bottom: none; }
-        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
-        .demo-scenarios { margin-top: 20px; padding: 15px; background-color: #e8f4fd; border-radius: 6px; }
-        .demo-btn { padding: 8px 12px; margin: 5px; background-color: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
-        .demo-btn:hover { background-color: #138496; }
-        @media (max-width: 768px) { .main-content { flex-direction: column; } .input-panel, .results-panel { min-width: auto; } }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
     <div class="container">
