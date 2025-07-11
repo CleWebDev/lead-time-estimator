@@ -326,7 +326,7 @@ def initialize_model():
             factor_options = generator.get_factor_options()
             print("Factor options loaded as fallback")
 
-# Simple HTML Template
+# Wizard-style HTML Template optimized for 1024x768 iframe
 HTML_TEMPLATE = '''
 <!DOCTYPE html>
 <html lang="en">
@@ -334,52 +334,83 @@ HTML_TEMPLATE = '''
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lead Time Estimator</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; color: #333; line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .header { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: center; }
-        .header h1 { color: #2c3e50; margin-bottom: 10px; }
-        .header p { color: #7f8c8d; }
-        .main-content { display: flex; gap: 20px; flex-wrap: wrap; }
-        .input-panel, .results-panel { flex: 1; min-width: 400px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: 500; color: #2c3e50; }
-        select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
-        select:focus { outline: none; border-color: #3498db; box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2); }
-        .predict-btn { width: 100%; padding: 12px; background-color: #3498db; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: 500; cursor: pointer; transition: background-color 0.3s; }
-        .predict-btn:hover { background-color: #2980b9; }
-        .predict-btn:disabled { background-color: #bdc3c7; cursor: not-allowed; }
-        .loading { display: none; text-align: center; padding: 20px; color: #7f8c8d; }
-        .results { display: none; }
-        .urgency-indicator { padding: 15px; border-radius: 6px; margin-bottom: 20px; text-align: center; font-weight: 500; }
-        .prediction-value { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
-        .explanation { background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
-        .explanation h4 { margin-bottom: 10px; color: #2c3e50; }
-        .explanation ul { list-style-type: none; padding-left: 0; }
-        .explanation li { padding: 5px 0; border-bottom: 1px solid #ecf0f1; }
-        .explanation li:last-child { border-bottom: none; }
-        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
-        .demo-scenarios { margin-top: 20px; padding: 15px; background-color: #e8f4fd; border-radius: 6px; }
-        .demo-btn { padding: 8px 12px; margin: 5px; background-color: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
-        .demo-btn:hover { background-color: #138496; }
-        @media (max-width: 768px) { .main-content { flex-direction: column; } .input-panel, .results-panel { min-width: auto; } }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>B2B Lead Time Estimator</h1>
-            <p>AI-powered delivery estimation considering product complexity, supply chain, and operational factors</p>
+    <div class="page-container">
+        <div class="page-header">
+            <div class="brand-section">
+                <div class="company-logo">A</div>
+                <div class="company-name">
+                    <span class="primary">ATLAS</span> <span class="secondary">Industrial Supply</span>
+                </div>
+            </div>
+            <div class="app-title-section">
+                <h1 class="page-title">Lead Time Estimator</h1>
+                <p class="page-subtitle">AI-powered delivery estimation considering product complexity, supply chain, and operational factors</p>
+            </div>
         </div>
-        <div class="main-content">
-            <div class="input-panel">
-                <h3>Order Parameters</h3>
+        
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-step active" id="step1-progress">
+                <div class="progress-dot"></div>
+                <span>Choose Scenario</span>
+            </div>
+            <div class="progress-step" id="step2-progress">
+                <div class="progress-dot"></div>
+                <span>Customize</span>
+            </div>
+            <div class="progress-step" id="step3-progress">
+                <div class="progress-dot"></div>
+                <span>Results</span>
+            </div>
+        </div>
+        
+        <div class="main-panel">
+            <h2 class="panel-title" id="panelTitle">Choose Your Scenario</h2>
+            
+            <!-- Step 1: Demo Scenarios -->
+            <div class="wizard-step active" id="step1">
+                <div class="demo-scenarios-step">
+                    <div class="demo-intro">
+                        <h3>Quick Start with Pre-configured Scenarios</h3>
+                        <p>Select a scenario to get started quickly, or click "Next" to build your own</p>
+                    </div>
+                    <div class="demo-grid">
+                        <div class="demo-card" data-scenario="best">
+                            <h4>Best Case</h4>
+                            <p>Fast delivery with optimal conditions</p>
+                        </div>
+                        <div class="demo-card" data-scenario="worst">
+                            <h4>Worst Case</h4>
+                            <p>Extended timeline with challenging factors</p>
+                        </div>
+                        <div class="demo-card" data-scenario="typical">
+                            <h4>Typical Order</h4>
+                            <p>Standard conditions and average timeline</p>
+                        </div>
+                        <div class="demo-card" data-scenario="rush">
+                            <h4>Rush Order</h4>
+                            <p>Expedited processing with priority handling</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="wizard-navigation">
+                    <button class="nav-button" disabled>Previous</button>
+                    <button class="nav-button primary" id="nextToStep2">Next</button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Custom Form -->
+            <div class="wizard-step" id="step2">
+                <div class="form-container">
                 <form id="predictionForm">
+                        <div class="form-grid">
                     {% for factor, options in factor_options.items() %}
                     <div class="form-group">
-                        <label for="{{ factor }}">{{ factor.replace('_', ' ').title() }}:</label>
-                        <select id="{{ factor }}" name="{{ factor }}" required>
+                                <label class="form-label" for="{{ factor }}">{{ factor.replace('_', ' ').title() }}</label>
+                                <select class="form-select" id="{{ factor }}" name="{{ factor }}" required>
                             <option value="">Select {{ factor.replace('_', ' ') }}...</option>
                             {% for option in options %}
                             <option value="{{ option }}">{{ option }}</option>
@@ -387,53 +418,260 @@ HTML_TEMPLATE = '''
                         </select>
                     </div>
                     {% endfor %}
-                    <button type="submit" class="predict-btn" id="predictBtn">Calculate Lead Time</button>
+                        </div>
                 </form>
-                <div class="demo-scenarios">
-                    <h4>Quick Demo Scenarios:</h4>
-                    <button class="demo-btn" onclick="loadScenario('best')">Best Case</button>
-                    <button class="demo-btn" onclick="loadScenario('worst')">Worst Case</button>
-                    <button class="demo-btn" onclick="loadScenario('typical')">Typical Order</button>
-                    <button class="demo-btn" onclick="loadScenario('rush')">Rush Order</button>
-                    <br><small>Debug: {{ factor_options|length }} factor groups loaded</small>
+                </div>
+                <div class="wizard-navigation">
+                    <button class="nav-button" id="backToStep1">Previous</button>
+                    <button class="nav-button primary" id="calculateBtn">Calculate Lead Time</button>
                 </div>
             </div>
-            <div class="results-panel">
-                <h3>Lead Time Estimate</h3>
-                <div id="loading" class="loading"><p>Calculating lead time...</p></div>
-                <div id="error" class="error" style="display: none;"></div>
-                <div id="results" class="results">
-                    <div id="urgencyIndicator" class="urgency-indicator">
+            
+            <!-- Step 3: Results -->
+            <div class="wizard-step" id="step3">
+                <div id="loading" class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Calculating lead time...</p>
+                </div>
+                <div id="error" class="error-message" style="display: none;"></div>
+                <div id="results" class="results-container">
+                    <div id="urgencyIndicator" class="urgency-card">
                         <div class="prediction-value" id="predictionValue"></div>
-                        <div id="urgencyMessage"></div>
+                        <div class="urgency-message" id="urgencyMessage"></div>
                     </div>
-                    <div class="explanation">
-                        <h4>Estimation Factors</h4>
-                        <ul id="explanationList"></ul>
+                    <div class="explanation-section">
+                        <h3 class="explanation-title">Estimation Factors</h3>
+                        <ul class="explanation-list" id="explanationList"></ul>
                     </div>
+                </div>
+                <div class="wizard-navigation">
+                    <button class="nav-button" id="backToStep2">Previous</button>
+                    <button class="nav-button primary" id="newEstimate">New Estimate</button>
                 </div>
             </div>
         </div>
     </div>
     <script>
         const demoScenarios = {
-            best: { product_type: 'Auto Parts', quantity_range: 'Small (1-25)', customer_region: 'North America', season: 'Summer (Jun-Aug)', product_complexity: 'Simple', supply_chain_status: 'Normal', factory_load: 'Low (<60%)', priority_level: 'Expedited' },
-            worst: { product_type: 'Machinery', quantity_range: 'Bulk (500+)', customer_region: 'Africa', season: 'Winter (Dec-Feb)', product_complexity: 'Custom', supply_chain_status: 'Critical Issues', factory_load: 'Critical (95%+)', priority_level: 'Standard' },
-            typical: { product_type: 'Electronics', quantity_range: 'Medium (26-100)', customer_region: 'Europe', season: 'Spring (Mar-May)', product_complexity: 'Standard', supply_chain_status: 'Normal', factory_load: 'Normal (60-80%)', priority_level: 'Standard' },
-            rush: { product_type: 'Chemicals', quantity_range: 'Small (1-25)', customer_region: 'Asia', season: 'Fall (Sep-Nov)', product_complexity: 'Complex', supply_chain_status: 'Minor Delays', factory_load: 'High (80-95%)', priority_level: 'High Priority' }
+            best: { 
+                product_type: 'Auto Parts', 
+                quantity_range: 'Small (1-25)', 
+                customer_region: 'North America', 
+                season: 'Summer (Jun-Aug)', 
+                product_complexity: 'Simple', 
+                supply_chain_status: 'Normal', 
+                factory_load: 'Low (<60%)', 
+                priority_level: 'Expedited' 
+            },
+            worst: { 
+                product_type: 'Machinery', 
+                quantity_range: 'Bulk (500+)', 
+                customer_region: 'Africa', 
+                season: 'Winter (Dec-Feb)', 
+                product_complexity: 'Custom', 
+                supply_chain_status: 'Critical Issues', 
+                factory_load: 'Critical (95%+)', 
+                priority_level: 'Standard' 
+            },
+            typical: { 
+                product_type: 'Electronics', 
+                quantity_range: 'Medium (26-100)', 
+                customer_region: 'Europe', 
+                season: 'Spring (Mar-May)', 
+                product_complexity: 'Standard', 
+                supply_chain_status: 'Normal', 
+                factory_load: 'Normal (60-80%)', 
+                priority_level: 'Standard' 
+            },
+            rush: { 
+                product_type: 'Chemicals', 
+                quantity_range: 'Small (1-25)', 
+                customer_region: 'Asia', 
+                season: 'Fall (Sep-Nov)', 
+                product_complexity: 'Complex', 
+                supply_chain_status: 'Minor Delays', 
+                factory_load: 'High (80-95%)', 
+                priority_level: 'High Priority' 
+            }
         };
-        function loadScenario(scenario) { const data = demoScenarios[scenario]; for (const [key, value] of Object.entries(data)) { document.getElementById(key).value = value; } }
-        class LeadTimeApp {
-            constructor() { this.form = document.getElementById('predictionForm'); this.predictBtn = document.getElementById('predictBtn'); this.loading = document.getElementById('loading'); this.results = document.getElementById('results'); this.error = document.getElementById('error'); this.initEventListeners(); }
-            initEventListeners() { this.form.addEventListener('submit', (e) => this.handlePrediction(e)); }
-            async handlePrediction(event) { event.preventDefault(); this.showLoading(); this.hideError(); try { const formData = new FormData(this.form); const data = {}; for (let [key, value] of formData.entries()) { data[key] = value; } const response = await fetch('/predict', { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify(data) }); if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); } const result = await response.json(); this.displayResults(result); } catch (error) { this.showError(`Error calculating lead time: ${error.message}`); } finally { this.hideLoading(); } }
-            displayResults(result) { const urgencyIndicator = document.getElementById('urgencyIndicator'); const predictionValue = document.getElementById('predictionValue'); const urgencyMessage = document.getElementById('urgencyMessage'); urgencyIndicator.style.backgroundColor = result.urgency_color + '20'; urgencyIndicator.style.borderLeft = `4px solid ${result.urgency_color}`; predictionValue.innerHTML = `${result.predicted_lead_time} days`; predictionValue.style.color = result.urgency_color; urgencyMessage.textContent = result.urgency_message; const explanationList = document.getElementById('explanationList'); explanationList.innerHTML = ''; result.explanation.forEach(explanation => { const li = document.createElement('li'); li.textContent = explanation; explanationList.appendChild(li); }); this.results.style.display = 'block'; }
-            showLoading() { this.loading.style.display = 'block'; this.results.style.display = 'none'; this.predictBtn.disabled = true; this.predictBtn.textContent = 'Calculating...'; }
-            hideLoading() { this.loading.style.display = 'none'; this.predictBtn.disabled = false; this.predictBtn.textContent = 'Calculate Lead Time'; }
-            showError(message) { this.error.textContent = message; this.error.style.display = 'block'; this.results.style.display = 'none'; }
-            hideError() { this.error.style.display = 'none'; }
+
+        class LeadTimeWizard {
+            constructor() {
+                this.currentStep = 1;
+                this.selectedScenario = null;
+                this.form = document.getElementById('predictionForm');
+                this.loading = document.getElementById('loading');
+                this.results = document.getElementById('results');
+                this.error = document.getElementById('error');
+                this.initEventListeners();
+            }
+
+            initEventListeners() {
+                // Demo card selection
+                document.querySelectorAll('.demo-card').forEach(card => {
+                    card.addEventListener('click', (e) => this.selectScenario(e.currentTarget.dataset.scenario));
+                });
+
+                // Navigation buttons
+                document.getElementById('nextToStep2').addEventListener('click', () => this.nextStep());
+                document.getElementById('backToStep1').addEventListener('click', () => this.previousStep());
+                document.getElementById('calculateBtn').addEventListener('click', (e) => this.handlePrediction(e));
+                document.getElementById('backToStep2').addEventListener('click', () => this.previousStep());
+                document.getElementById('newEstimate').addEventListener('click', () => this.resetWizard());
+            }
+
+            selectScenario(scenario) {
+                // Remove previous selection
+                document.querySelectorAll('.demo-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+
+                // Select new scenario
+                const selectedCard = document.querySelector(`[data-scenario="${scenario}"]`);
+                selectedCard.classList.add('selected');
+                this.selectedScenario = scenario;
+            }
+
+            nextStep() {
+                if (this.currentStep === 1 && this.selectedScenario) {
+                    // Load scenario data into form
+                    const data = demoScenarios[this.selectedScenario];
+                    for (const [key, value] of Object.entries(data)) {
+                        const element = document.getElementById(key);
+                        if (element) element.value = value;
+                    }
+                }
+
+                this.showStep(this.currentStep + 1);
+            }
+
+            previousStep() {
+                this.showStep(this.currentStep - 1);
+            }
+
+            showStep(step) {
+                // Hide all steps
+                document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+                
+                // Show current step
+                document.getElementById(`step${step}`).classList.add('active');
+                
+                // Update progress
+                this.updateProgress(step);
+                
+                // Update titles
+                this.updateTitles(step);
+                
+                this.currentStep = step;
+            }
+
+            updateProgress(step) {
+                document.querySelectorAll('.progress-step').forEach((el, index) => {
+                    el.classList.remove('active', 'completed');
+                    if (index + 1 < step) {
+                        el.classList.add('completed');
+                    } else if (index + 1 === step) {
+                        el.classList.add('active');
+                    }
+                });
+            }
+
+            updateTitles(step) {
+                const titles = ['Choose Your Scenario', 'Customize Parameters', 'Lead Time Estimate'];
+                document.getElementById('panelTitle').textContent = titles[step - 1];
+            }
+
+            resetWizard() {
+                this.currentStep = 1;
+                this.selectedScenario = null;
+                this.form.reset();
+                document.querySelectorAll('.demo-card').forEach(card => card.classList.remove('selected'));
+                this.showStep(1);
+            }
+
+            async handlePrediction(event) {
+                event.preventDefault();
+                this.showStep(3);
+                this.showLoading();
+                this.hideError();
+                
+                try {
+                    const formData = new FormData(this.form);
+                    const data = {};
+                    for (let [key, value] of formData.entries()) {
+                        data[key] = value;
+                    }
+                    
+                    const response = await fetch('/predict', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+                    this.displayResults(result);
+                } catch (error) {
+                    this.showError(`Error calculating lead time: ${error.message}`);
+                } finally {
+                    this.hideLoading();
+                }
+            }
+            displayResults(result) { 
+                const urgencyIndicator = document.getElementById('urgencyIndicator'); 
+                const predictionValue = document.getElementById('predictionValue'); 
+                const urgencyMessage = document.getElementById('urgencyMessage'); 
+                
+                // Remove existing urgency classes
+                urgencyIndicator.classList.remove('low', 'normal', 'extended', 'critical');
+                
+                // Add appropriate urgency class based on urgency_level
+                if (result.urgency_level) {
+                    urgencyIndicator.classList.add(result.urgency_level);
+                }
+                
+                predictionValue.innerHTML = `${result.predicted_lead_time} days`; 
+                urgencyMessage.textContent = result.urgency_message; 
+                
+                const explanationList = document.getElementById('explanationList'); 
+                explanationList.innerHTML = ''; 
+                result.explanation.forEach(explanation => { 
+                    const li = document.createElement('li'); 
+                    li.className = 'explanation-item';
+                    li.textContent = explanation; 
+                    explanationList.appendChild(li); 
+                }); 
+                this.results.style.display = 'block'; 
+            }
+            
+            showLoading() { 
+                this.loading.style.display = 'block'; 
+                this.results.style.display = 'none'; 
+            }
+            
+            hideLoading() { 
+                this.loading.style.display = 'none'; 
+            }
+            
+            showError(message) { 
+                this.error.textContent = message; 
+                this.error.style.display = 'block'; 
+                this.results.style.display = 'none'; 
+            }
+            
+            hideError() { 
+                this.error.style.display = 'none'; 
+            }
         }
-        document.addEventListener('DOMContentLoaded', () => { new LeadTimeApp(); });
+        
+        document.addEventListener('DOMContentLoaded', () => { 
+            new LeadTimeWizard(); 
+        });
     </script>
 </body>
 </html>
